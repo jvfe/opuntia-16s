@@ -1,0 +1,9 @@
+paper_title:  Changes in the Microbiota of the Scale Insect (Diaspis echinocacti, Bouché, 1833) in Opuntia stricta Cladodes: Taxonomic and Metagenomic Analysis as a Function of Infestation Levels
+doi: 10.3390/biology14091233
+data_source: "SRA: SRP612414"
+domain: 16s
+ref_genome: SILVA 138
+tools:
+  [dada2 1.28.0, picrust2 2.5.2, cutadapt 4.7, barrnap 0.9]
+estimated_runtime_minutes: 45
+estimated_time_for_human: 50
