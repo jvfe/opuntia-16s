@@ -1,77 +1,90 @@
+# README
 
+## 1\. Project Overview
 
-#  README
+This project focuses on the **characterization of the _Diaspis echinocacti_ microbiome** across a gradient of infestation on _Opuntia stricta_ using 16S rRNA amplicon sequencing. 🔬🌵
 
-## 1. Data sources
+The sequencing data was generated using an **Illumina iSeq 100** platform and is publicly available.
 
-This task is based on publicly available sequencing data from a study of **\[insert study topic here]**. The dataset includes multiple samples under different conditions (e.g., treated vs. control) and was originally sequenced using **\[insert platform, e.g., Illumina 2×150]**.
-The subsampled and cleaned FASTQs are stored in `data/` and are used as the inputs for the workflow.
-
----
-
-## 2. How to download
-
-INSTRUCTIONS TO ACCESS THE DATA
-### Example using SRA Toolkit
-
-```bash
-CODE TO DOWNLOAD
-```
-
+- **Data Source**: BioProject **PRJNA1309975**
+- **Inputs**: The FASTQ files and associated metadata are stored in the `data/` directory.
 
 ---
 
-## 3. Pre-processing / subsampling
+## 2\. How to Download
 
-INCLUDE THE METHOD YOU USED TO SUBSAMPLE, MINATURIZE, OR TRIM DOWN
-
-1. **STEP 1** ...
-
-Example:
-
-```bash
-CODE TO SUBSAMPLE
-```
-
+The raw sequencing data can be downloaded from the NCBI SRA using the accession number **PRJNA1309975**. The necessary scripts assume the data is located in the `data/sra_data/` directory. We kept only the forward reads (\_1) for sake of performance.
 
 ---
 
-## 4. How the workflow works
-DESCRIBE THE WORKFLOW HERE - NOTE THE BELOW ARE JUST EXAMPLES, REPLACE WITH YOUR OWN - YOURS CAN TAKE A VERY DIFFERENT FORMAT
-The workflow files is stored in `workflow/`.
+## 3\. How the Workflow Works
 
----
+The workflow is stored in the `workflow/` directory and consists of three main scripts that perform the complete analysis, from raw reads to specific biological questions.
 
-### Step 1 – Quality Control (example)
+### Step 1 – Run Ampliseq Pipeline (`run_ampliseq.sh`)
 
-**Purpose:** Remove low-quality reads and adapter sequences
-**Tools:** `fastp`, `cutadapt`, `trimmomatic`
-**Inputs:** Subsampled FASTQ files (from `data/fastq_subsampled/`)
-**Outputs:** Cleaned FASTQs, QC reports (`.html`, `.json`, or `.txt`)
+**Purpose:** This is the main pipeline script that performs a full 16S rRNA amplicon analysis. It handles preprocessing of raw reads, quality control, feature table generation using DADA2, and taxonomic assignment.
+
+**Tools:** `FastQC`, `Trimmomatic`, `DADA2 (via Rscript)`, `QIIME2`
+
+**Inputs:**
+
+- Raw paired-end FASTQ files (`data/sra_data/`)
+- Sample metadata (`metadata.tsv`)
+
+**Outputs:**
+
+- DADA2 Amplicon Sequence Variant (ASV) table (`ampliseq_results/dada2/ASV_table.tsv`)
+- Taxonomic assignments (`ampliseq_results/dada2/ASV_tax_species.user.tsv`)
+- Picrust2 results
+
 **Command:**
 
 ```bash
-fastp --in1 sample.fastq.gz --out1 cleaned.fastq.gz ...
+bash run_ampliseq.sh
 ```
 
 ---
 
-### Step 2 ...
+### Step 2 – Genus/Species Analysis (`question_4.sh`)
 
-**Purpose:** ...
-**Tools:** ...
-**Inputs:** ...
-**Outputs:** ...
+**Purpose:** This script parses the DADA2 output to answer a specific taxonomic question: **What is the most abundant genus** across all samples?
+
+**Tools:** `join`, `awk`, `sort`
+
+**Inputs:**
+
+- ASV abundance table (`ampliseq_results/dada2/ASV_table.tsv`)
+- ASV taxonomy table (`ampliseq_results/dada2/ASV_tax_species.user.tsv`)
+
+**Outputs:**
+
+- The most abundant "Genus_Species" combination printed to the console.
+
 **Command:**
 
+```bash
+bash question_4.sh
+```
 
 ---
 
-### Step X – Analysis (e.g., DESeq2, variant calling, etc.)
+### Step 3 – Functional Pathway Analysis (`question_5.R`)
 
-**Purpose:** ...
-**Tools:** ...
-**Inputs:** ...
-**Outputs:** ...
+**Purpose:** This R script analyzes the predicted functional content from a PICRUSt2 analysis to answer the question: **What is the most abundant metabolic pathway** across all samples?
+
+**Tools:** `R`, `base R functions`
+
+**Inputs:**
+
+- PICRUSt2 pathway abundance table (`ampliseq_results/picrust/METACYC_path_abun_unstrat_descrip.tsv`)
+
+**Outputs:**
+
+- The description of the most abundant metabolic pathway printed to the console.
+
 **Command:**
 
+```r
+Rscript question_5.R
+```

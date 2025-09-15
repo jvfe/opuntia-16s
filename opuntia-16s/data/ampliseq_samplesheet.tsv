@@ -1,0 +1,10 @@
+sampleID	forwardReads	run
+SRR35124678	data/sra_data/SRR35124678.fastq.gz	group_3
+SRR35124679	data/sra_data/SRR35124679.fastq.gz	group_3
+SRR35124680	data/sra_data/SRR35124680.fastq.gz	group_3
+SRR35124681	data/sra_data/SRR35124681.fastq.gz	group_2
+SRR35124682	data/sra_data/SRR35124682.fastq.gz	group_2
+SRR35124683	data/sra_data/SRR35124683.fastq.gz	group_2
+SRR35124684	data/sra_data/SRR35124684.fastq.gz	group_1
+SRR35124685	data/sra_data/SRR35124685.fastq.gz	group_1
+SRR35124686	data/sra_data/SRR35124686.fastq.gz	group_1

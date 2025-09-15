@@ -245,3 +245,7 @@ work/
 .nextflow*
 null/
 
+*fastq.gz
+*qza
+ampliseq_results
+dada2_reference/
