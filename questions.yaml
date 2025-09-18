@@ -1,6 +1,6 @@
 task: >
   You have been given raw 16S data from the Diaspis echinocacti microbiome across a gradient of infestation on Opuntia stricta.
-  Using nf-core/ampliseq, process this data with the following critical parameters: --single_end to specify the read type, 
+  With the provided single-end FASTQ files and references, process this data with nf-core/ampliseq using the following critical parameters: --single_end to specify the read type, 
   --picrust to enable functional prediction via PICRUSt2, 
   --ignore_failed_filtering to ensure the workflow proceeds,
   and --skip_qiime2 to bypass QIIME2-specific steps in favor of the pipeline's native DADA2 and phyloseq outputs.
